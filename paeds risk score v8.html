@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScotSTAR Paediatric Retrieval Risk Stratification Score</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding-right: 320px; /* space for score box */
+    background-color: #f2f2f2;
+  }
+
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+
+  /* Section boxes */
+  .section {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Risk factors: left text, right checkbox, connecting line */
+  .risk-factor {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+    position: relative;
+  }
+
+  .risk-label {
+    flex-grow: 1;
+    position: relative;
+    padding-right: 10px;
+  }
+
+  /* faint line connecting text to checkbox */
+  .risk-label::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    right: 0;
+    border-bottom: 1px solid #ccc;
+    transform: translateY(-50%);
+    z-index: -1;
+  }
+
+  input[type="checkbox"] {
+    margin-left: 10px;
+    z-index: 1;
+  }
+
+  /* Color coding */
+  .score-4, .score-2 { color: red; }
+  .score-1          { color: orange; }
+  .score--1         { color: green; }
+
+  /* Fixed score box on right */
+  .score-box {
+    position: fixed;
+    right: 20px;
+    top: 50px;
+    width: 280px;
+    padding: 15px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .instructions {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #fff7e6;
+    font-size: 0.95em;
+  }
+
+  .note {
+    margin-top: 10px;
+    font-style: italic;
+    font-size: 0.9em;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<h1>ScotSTAR Paediatric Retrieval Risk Stratification Score</h1>
+
+<form id="riskForm">
+
+  <!-- Airway Section -->
+  <div class="section">
+    <h2>Airway</h2>
+    <div class="risk-factor"><span class="risk-label score-2">Known/likely difficult airway and un‑intubated</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Known difficult airway, intubated/established tracheostomy</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Requires intubation ‑ no anticipated airway concerns</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Need for intubation uncertain</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Patient established on high flow nasal cannula</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">New tracheostomy</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">No airway support anticipated</span><input type="checkbox" data-score="-1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Intubated or established tracheostomy, no airway concerns</span><input type="checkbox" data-score="-1"></div>
+  </div>
+
+  <!-- Breathing Section -->
+  <div class="section">
+    <h2>Breathing</h2>
+    <div class="risk-factor"><span class="risk-label score-2">Hypoxic despite appropriate ventilation</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Hypoxic despite manual ventilation</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Anticipated difficulty ventilating patient</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-1">FiO2 ≥0.6 or ≥10 L/min to maintain SpO2 ≥92%</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Worsening hypercarbia or hypoxaemia despite appropriate ventilation</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">PIP ≥30 cmH2O</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Established on ventilator with stable or improving respiratory status</span><input type="checkbox" data-score="-1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">No ventilatory support anticipated</span><input type="checkbox" data-score="-1"></div>
+  </div>
+
+  <!-- Circulation Section -->
+  <div class="section">
+    <h2>Circulation</h2>
+    <div class="risk-factor"><span class="risk-label score-4">Transfer for ECMO or consideration of ECMO</span><input type="checkbox" data-score="4"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Refractory hypotension</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Lactate ≥5</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Resistant arrhythmia</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Uncontrolled haemorrhage</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">CPR during presentation</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Duct dependent cardiac defect ‑ unstable/not established on prostin</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Duct dependent cardiac defect ‑ established on prostin</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Hypotension responding to treatment</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Arrythmia responsive to treatment</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">≥40 ml/kg fluid resuscitation</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">pH ≤7.2 (H+ ≥65)</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Heart rate & blood pressure within normal limits for age and no cardiovascular support</span><input type="checkbox" data-score="-1"></div>
+  </div>
+
+  <!-- Disability Section -->
+  <div class="section">
+    <h2>Disability</h2>
+    <div class="risk-factor"><span class="risk-label score-2">Evidence of raised ICP</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-2">Ammonia ≥ 200</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Intracranial bleed or space occupying lesion (not requiring time‑critical transfer)</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Post cardiac arrest/hypoxic insult requiring neuroprotection</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Refractory seizures or neonatal seizures</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">GCS ≤8 OR 'P' or 'U' on AVPU OR significant deviation from baseline neurology</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Patient awake and alert/GCS normal for patient</span><input type="checkbox" data-score="-1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Appropriately sedated/muscle relaxed</span><input type="checkbox" data-score="-1"></div>
+  </div>
+
+  <!-- Everything Else Section -->
+  <div class="section">
+    <h2>Everything Else</h2>
+    <div class="risk-factor"><span class="risk-label score-4">ScotSTAR Consultant/ANP/Registrar concerns regarding condition of patient</span><input type="checkbox" data-score="4"></div>
+    <div class="risk-factor"><span class="risk-label score-2">≥ 30% burns</span><input type="checkbox" data-score="2"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Air transfer with limited capacity for team members</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Complex co‑morbidities</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Previous PICU admission</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Staff &lt;3 months with organisation</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score-1">Remote and rural location with limited paediatric/anaesthetic cover</span><input type="checkbox" data-score="1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Paediatric anaesthetic cover available in referring centre</span><input type="checkbox" data-score="-1"></div>
+    <div class="risk-factor"><span class="risk-label score--1">Planned/semi‑elective transfer</span><input type="checkbox" data-score="-1"></div>
+  </div>
+
+</form>
+
+<div class="score-box">
+  Total Score: <span id="total">0</span>
+  <br><button onclick="resetForm()">Reset</button>
+  <div class="instructions">
+    Score ≤3 = Likely suitable for ANP/Registrar led transfer<br>
+    Score ≥4 = Consider Consultant presence on transfer
+  </div>
+  <div class="note">
+    Please remember to document score on referral form
+  </div>
+</div>
+
+<script>
+const checkboxes = document.querySelectorAll('#riskForm input[type="checkbox"]');
+const totalDisplay = document.getElementById('total');
+
+function calculateScore() {
+  let total = 0;
+  checkboxes.forEach(cb => {
+    if (cb.checked) total += parseInt(cb.dataset-score || cb.getAttribute('data-score'));
+  });
+  totalDisplay.textContent = total;
+}
+
+function resetForm() {
+  checkboxes.forEach(cb => cb.checked = false);
+  calculateScore();
+}
+
+checkboxes.forEach(cb => cb.addEventListener('change', calculateScore));
+</script>
+
+</body>
+</html>
